@@ -136,11 +136,12 @@ define windowsfeature (
       }
 
     } else {    
-    exec { "remove-feature-${title}":
-      command  => "Import-Module ServerManager; Remove-WindowsFeature ${features} -Restart:$${_restart}",
-      onlyif   => "Import-Module ServerManager; if (@(Get-WindowsFeature ${features} | ?{\$_.Installed -match \'true\'}).count -eq 0) { exit 1 }",
-      provider => powershell,
-      timeout  => $timeout,
+      exec { "remove-feature-${title}":
+        command  => "Import-Module ServerManager; Remove-WindowsFeature ${features} -Restart:$${_restart}",
+        onlyif   => "Import-Module ServerManager; if (@(Get-WindowsFeature ${features} | ?{\$_.Installed -match \'true\'}).count -eq 0) { exit 1 }",
+        provider => powershell,
+        timeout  => $timeout,
+      }
     }
   }
 }
